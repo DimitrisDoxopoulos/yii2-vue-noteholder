@@ -4,6 +4,8 @@ namespace app\models;
 
 use app\models\query\NoteQuery;
 use Yii;
+use yii\behaviors\BlameableBehavior;
+use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
@@ -26,7 +28,18 @@ class Note extends ActiveRecord
      */
     public static function tableName()
     {
-        return 'notes';
+        return '{{%notes}}';
+    }
+
+    public function behaviors()
+    {
+        return [
+            TimestampBehavior::class,
+            [
+                'class' => BlameableBehavior::class,
+                'updatedByAttribute' => false
+            ]
+        ];
     }
 
     /**
@@ -38,7 +51,7 @@ class Note extends ActiveRecord
             [['body'], 'string'],
             [['created_at', 'updated_at', 'created_by'], 'integer'],
             [['title'], 'string', 'max' => 255],
-            [['created_by'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['created_by' => 'id']],
+            [['created_by'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['created_by' => 'id']],
         ];
     }
 

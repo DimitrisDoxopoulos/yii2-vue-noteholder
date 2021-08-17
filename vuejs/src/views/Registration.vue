@@ -8,8 +8,8 @@
         </p>
       </div>
       <input type="text" v-model="form.username" placeholder="Your Username"><br>
-      <input type="pasword" v-model="form.password" placeholder="Your Password"><br>
-      <input type="pasword" v-model="form.password_repea" placeholder="Repeat Password"><br>
+      <input type="password" v-model="form.password" placeholder="Your Password"><br>
+      <input type="password" v-model="form.password_repeat" placeholder="Repeat Password"><br>
       <button>Register</button>
       <router-link to="/login" class="link">Click here to Login</router-link>
     </form>
@@ -17,6 +17,8 @@
 </template>
 
 <script>
+import authService from "../services/auth.service";
+
 export default {
   name: "Registration",
   data() {
@@ -28,6 +30,16 @@ export default {
       errors: null
     }
   },
+  methods : {
+    async register() {
+       const {success, errors} = await authService.register(this.form);
+      if (success) {
+        this.$router.push({name: 'home'});
+      } else {
+        this.errors = errors;
+      }
+    }
+  }
 }
 </script>
 

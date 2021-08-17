@@ -2,6 +2,8 @@
 
 use app\modules\api\Module;
 
+use yii\web\JsonParser;
+
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 
@@ -18,7 +20,7 @@ $config = [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'G-hM2oQ8pmzSICmgeEQT2NUCIN80Hzum',
             'parsers' => [
-                'application/json' => \yii\web\JsonParser::class,
+                'application/json' => JsonParser::class,
             ]
         ],
         'cache' => [
@@ -53,6 +55,11 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                [
+                    'class' => \yii\rest\UrlRule::class,
+                    'pluralize' => false,
+                    'controller' => ['api/note']
+                ]
             ],
         ],
 

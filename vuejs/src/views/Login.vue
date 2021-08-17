@@ -16,6 +16,8 @@
 </template>
 
 <script>
+import authService from "../services/auth.service";
+
 export default {
   name: "Login",
   data() {
@@ -28,8 +30,13 @@ export default {
     }
   },
   methods: {
-    login(){
-      console.log("login", this.form);
+    async login() {
+      const {success, errors} = await authService.login(this.form);
+      if (success) {
+        this.$router.push({name: 'home'});
+      } else {
+        this.errors = errors;
+      }
     }
   }
 }

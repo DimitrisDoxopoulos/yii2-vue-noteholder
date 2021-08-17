@@ -4,6 +4,7 @@ import DefaultLayout from "../layouts/DefaultLayout";
 import AuthLayout from "../layouts/AuthLayout";
 import Login from "../views/Login";
 import Registration from "../views/Registration";
+import authService from "../services/auth.service";
 
 const routes = [
   {
@@ -17,7 +18,7 @@ const routes = [
         name: 'home',
         component: Home
       }
-    ]
+    ],
   },
   {
     path: '/auth',
@@ -49,6 +50,16 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
+})
+
+router.beforeEach((to, from, next) => {
+  if (to.name === 'home' && !authService.isLoggedIn()) {
+    next({name: 'login'})
+  } else if (authService.isLoggedIn() && to.name !== 'home') {
+    next({name: 'home'})
+  } else {
+    next();
+  }
 })
 
 export default router

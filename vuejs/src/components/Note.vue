@@ -1,15 +1,14 @@
 <template>
   <div class="tc-note">
     <div class="tc-note-header">
-       <span @click='deleteNote' class="tc-note-close">
-         <i class="fas fa-times"></i>
-       </span>
+      <span @click="deleteNote" class="tc-note-close">
+        X
+      </span>
     </div>
     <div class="tc-note-title" contenteditable="" @blur="titleChanged">
       {{note.title}}
     </div>
-    <div class="tc-note-body" contenteditable="" @blur="bodyChanged">
-      {{note.body}}
+    <div class="tc-note-body" v-html="note.body" contenteditable="" @blur="bodyChanged">
     </div>
   </div>
 </template>

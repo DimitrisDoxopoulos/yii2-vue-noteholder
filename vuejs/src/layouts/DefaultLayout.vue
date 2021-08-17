@@ -7,6 +7,7 @@
 
 <script>
 import Navbar from "./Navbar";
+import authService from "../services/auth.service";
 export default {
   name: "DefaultLayout",
   components: {Navbar},
@@ -14,6 +15,9 @@ export default {
     return {
       user: {}
     }
+  },
+  async beforeMount() {
+    this.user = await authService.getCurrentUser();
   }
 }
 </script>
