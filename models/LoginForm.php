@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\modules\api\resources\UserResource;
 use Yii;
 use yii\base\Model;
 
@@ -17,7 +18,7 @@ class LoginForm extends Model
     public $password;
     public $rememberMe = true;
 
-    private $_user = false;
+    protected $_user = false;
 
 
     /**
@@ -68,12 +69,12 @@ class LoginForm extends Model
     /**
      * Finds user by [[username]]
      *
-     * @return User|null
+     * @return UserResource|null
      */
     public function getUser()
     {
         if ($this->_user === false) {
-            $this->_user = User::findByUsername($this->username);
+            $this->_user = UserResource::findByUsername($this->username);
         }
 
         return $this->_user;

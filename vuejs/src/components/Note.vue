@@ -5,10 +5,10 @@
          <i class="fas fa-times"></i>
        </span>
     </div>
-    <div class="tc-note-title" contenteditable="">
+    <div class="tc-note-title" contenteditable="" @blur="titleChanged">
       {{note.title}}
     </div>
-    <div class="tc-note-body" contenteditable="">
+    <div class="tc-note-body" contenteditable="" @blur="bodyChanged">
       {{note.body}}
     </div>
   </div>
@@ -23,9 +23,23 @@ export default {
       required: true
     }
   },
+  data: function (){
+    // Make  copy of the note so we can avoid mutation error
+    return{
+      mutableNote : this.note
+    }
+  },
   methods: {
     deleteNote(){
       this.$emit('deleteNote', this.note);
+    },
+    titleChanged($event){
+      this.mutableNote.title = $event.target.innerHTML;
+      this.$emit('noteUpdate', this.note);
+    },
+    bodyChanged($event){
+      this.mutableNote.body = $event.target.innerHTML;
+      this.$emit('noteUpdted', this.note);
     }
   }
 }
