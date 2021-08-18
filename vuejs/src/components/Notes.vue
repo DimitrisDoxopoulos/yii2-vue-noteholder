@@ -11,6 +11,7 @@
 import AddNewButton from "./AddNewButton";
 import Note from "./Note";
 import httpClient from "../services/http.service";
+import notesService from "../services/notes.service";
 
 export default {
   name: "Notes",
@@ -23,32 +24,27 @@ export default {
   },
   methods: {
     async addNote(){
-      const {status, data} = await httpClient.post('note', {});
+      const {status, data} = await notesService.create({title: '', body: ''});
       if (status === 201) {
         this.notes.unshift(data);
       }
     },
     async deleteNote(note){
-      const {status, data} = await httpClient.delete(`note/${note.id}`, {});
+      const {status} = await notesService.delete(note.id);
       if (status === 204) {
         this.notes.splice(this.notes.indexOf(note), 1);
       }
     },
     async noteUpdated(note){
-
-      const {status, data} = await httpClient.put(`note/${note.id}`, note);
-      if (status === 200) {
-        console.log(note);
-        //do nothing, it already gets updated
-      }
+      const response = await notesService.update(note);
     }
   },
-    async mounted() {
-      const {status, data} = await httpClient.get('note');
-      if (status === 200) {
-        this.notes = data;
-      }
+  async beforeMount() {
+    const {status, data} = await notesService.get();
+    if (status === 200) {
+      this.notes = data;
     }
+  }
 }
 </script>
 

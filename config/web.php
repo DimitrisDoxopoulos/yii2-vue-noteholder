@@ -57,7 +57,7 @@ $config = [
             'rules' => [
                 [
                     'class' => \yii\rest\UrlRule::class,
-                    'pluralize' => false,
+                    'pluralize' => true,
                     'controller' => ['api/note']
                 ]
             ],

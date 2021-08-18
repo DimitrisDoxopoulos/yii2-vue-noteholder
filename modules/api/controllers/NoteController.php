@@ -2,6 +2,7 @@
 
 namespace app\modules\api\controllers;
 
+use app\models\Note;
 use Yii;
 use app\modules\api\resources\NoteResource;
 use yii\data\ActiveDataProvider;
@@ -15,7 +16,7 @@ use yii\rest\ActiveController;
  */
 class NoteController extends ActiveController
 {
-    public $modelClass = NoteResource::class;
+    public $modelClass = Note::class;
 
     public function behaviors()
     {
@@ -52,8 +53,8 @@ class NoteController extends ActiveController
 
     public function prepareDataProvider()
     {
-        return new ActiveDataprovider([
-            'query' => $this->modelClass::find()->byUser(Yii::$app->user->id)
+        return new ActiveDataProvider([
+            'query' => Note::find()->andWhere(['created_by' => Yii::$app->user->id])
         ]);
     }
 }
